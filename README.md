@@ -1,2 +1,2 @@
 # BlackJack
-A game of blackjack 
+A game of blackjack, created with Python 3.8.1
