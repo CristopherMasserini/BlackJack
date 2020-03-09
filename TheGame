@@ -2,6 +2,18 @@ import tkinter
 import random
 
 
+def bet_5():
+    pass
+
+
+def bet_10():
+    pass
+
+
+def bet_15():
+    pass
+
+
 def load_images(card_images):
     suits = ["heart", "club", "diamond", "spade"]
     face_cards = ["jack", "queen", 'king']
@@ -121,6 +133,7 @@ def play():
 
     mainWindow.mainloop()
 
+
 mainWindow = tkinter.Tk()
 
 # set up screen and frames for the dealer and player
@@ -167,6 +180,18 @@ new_game_button.grid(row=0, column=2)
 shuffle_button = tkinter.Button(button_frame, text="Shuffle", command=shuffle)
 shuffle_button.grid(row=0, column=3)
 
+bet_frame = tkinter.Frame(mainWindow)
+bet_frame.grid(row=4, column=0, columnspan=3, sticky="w")
+
+five_button = tkinter.Button(bet_frame, text="$5 Bet", command=bet_5)
+five_button.grid(row=1, column=1)
+
+ten_button = tkinter.Button(bet_frame, text="$10 Bet", command=bet_10)
+ten_button.grid(row=1, column=2)
+
+fifteen_button = tkinter.Button(bet_frame, text="$15 Bet", command=bet_15)
+fifteen_button.grid(row=1, column=3)
+
 cards = []
 load_images(cards)
 # print(cards)
@@ -180,4 +205,6 @@ dealer_hand = []
 player_hand = []
 
 if __name__ == "__main__":
+    player_money = 40
+    player_bet = 0
     play()
