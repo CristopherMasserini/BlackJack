@@ -3,15 +3,21 @@ import random
 
 
 def bet_5():
-    pass
+    global player_bet
+    player_bet += 5
+    show_money_and_bet()
 
 
 def bet_10():
-    pass
+    global player_bet
+    player_bet += 10
+    show_money_and_bet()
 
 
 def bet_15():
-    pass
+    global player_bet
+    player_bet += 15
+    show_money_and_bet()
 
 
 def load_images(card_images):
@@ -47,10 +53,26 @@ def _deal_card(frame):
     return next_card
 
 
+def show_money_and_bet():
+    global player_money
+    global player_bet
+    score_frame = tkinter.Frame(mainWindow)
+    score_frame.grid(row=6, column=0, columnspan=3, rowspan=3, sticky="w")
+
+    money = tkinter.Label(score_frame, text=f"Player Money = {player_money}")
+    money.grid(row=1, column=0, columnspan=2)
+
+    bet = tkinter.Label(score_frame, text=f"Player Bet = {player_bet}")
+    bet.grid(row=2, column=0, columnspan=2)
+
+
 def deal_dealer():
+    global player_bet
+    global player_money
     dealer_score = score_hand(dealer_hand)
 
     while 0 < dealer_score < 17:
+        show_money_and_bet()
         dealer_hand.append(_deal_card(dealer_card_frame))
         dealer_score = score_hand(dealer_hand)
         dealer_score_label.set(dealer_score)
@@ -58,18 +80,29 @@ def deal_dealer():
     player_score = score_hand(player_hand)
     if player_score > 21:
         result_text.set("Dealer wins. Ha!")
+        player_money -= player_bet
+        player_bet = 0
     elif dealer_score > 21 or dealer_score < player_score:
         result_text.set("You win!")
+        player_money += player_bet
+        player_bet = 0
     elif dealer_score > player_score:
         result_text.set("Dealer wins. Ha!")
+        player_money -= player_bet
+        player_bet = 0
     else:
         result_text.set("Draw...")
+        player_bet = 0
 
 
 def deal_player():
+    global player_bet
+    global player_money
     # tells function to use the global variables
     # global player_score
     # global player_ace
+
+    show_money_and_bet()
 
     player_hand.append(_deal_card(player_card_frame))
     player_score = score_hand(player_hand)
@@ -77,8 +110,12 @@ def deal_player():
 
     if player_score == 21 and len(player_hand) == 2:
         result_text.set("Blackjack, you win!")
+        player_money += player_bet * 2
+        player_bet = 0
     elif player_score > 21:
         result_text.set("Dealer wins. Ha!")
+        player_money -= player_bet
+        player_bet = 0
 
 
 def score_hand(hand):
@@ -126,6 +163,7 @@ def shuffle():
 
 
 def play():
+    show_money_and_bet()
     deal_player()
     dealer_hand.append(_deal_card(dealer_card_frame))
     dealer_score_label.set(score_hand(dealer_hand))
